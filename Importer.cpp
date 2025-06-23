@@ -55,7 +55,7 @@ void treeReading(std::unique_ptr<TFile> & file,const char  treeName[]){
 
     };
     //A root file is temporarily created to copy the TTree
-    TFile newfile("small.root", "recreate");
+    TFile * tempfile = new TFile("small.root", "recreate");
     TTree *outputtree = tree->CloneTree(-1,"fast");
     //First, we check if the file already exists, and then if the rntuple already exists in the file. 
     if (!gSystem->AccessPathName(newfileName.c_str())){
@@ -73,8 +73,9 @@ void treeReading(std::unique_ptr<TFile> & file,const char  treeName[]){
       importer->Import();
     }
   //Once the importing is done, then the Copy file is deleted. 
-  newfile.Close();
-  gSystem->Unlink(newfile.GetName());
+  tempfile->Close();
+  gSystem->Unlink(tempfile->GetName());
+  delete tempfile;
 }
 
 
