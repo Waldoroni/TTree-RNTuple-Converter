@@ -1,10 +1,13 @@
 # ROOT TTree-to-RNTuple Converter
-This program is takes in a ROOT data file and converts any TTree found in the file into an RNTuple, using ROOT's RNTuple Importer, currating the TTree to be able to be sent through the RNTuple importer. 
+This repository is focused on the conversion from ROOT's TTree storage format to its new storage format, RNTuples. It contains a file that is meant to map TTrees to RNtuple, Importer.cpp, then the other file is meant to check the original file and the new file for any errors after importing it. 
 
-Another program that is included in this repo is a program that checks to see if the two corresponding files are usable for the program, ensuring that the importer has done its job.
+## Importer
+This program takes as an input, a ROOT file containing some amount of TTrees. It will search through the file and its subdirectories for any TTrees in the data. Once it finds a TTree, it will convert the TTree using ROOT's built-in RNTuple Importer, which only include the branches that are natively compatible with RNTuples. This will create a new ROOT file containing the RNTuple.
 
-These programs were made in light of the upcoming ROOT 7 update, which will now use RNTuples as the main form of data storage, instead of TTrees. This program will allow for the conversion from multiple TTrees into RNTuples, while maintaining the data of the previous file. 
+For future improvements, we hope to bring in the subdirectories within the original TTree. As of now, the names and hierarchy of directories will be maintained through the names of the RNTuples in the new file. Furthermore, with the release of ROOT 7, we hope to include conversions from an outdated data source and send it to the new one. 
 
-In the future, we hope to expand upon our "checker" program, as currently, checking each individual column of an TTree and making sure that the corresponding RNTuple is exactly the same. 
+## File Comparison
 
-Furthermore, we hope continue our work on the importer, allowing for the transfer of certain objects such as TH1 objects into an RNTuple. This comes from the inclusion of a new histogram class that will be implemented in ROOT 7.
+This programs takes as an input, two ROOT files, where one is the original ROOT file with the TTrees and the other is the new ROOT file with the RNTuples. It will make sure that the two files are viable, uncorrupted files. This is to make sure that the previous file has done its job correctly, not creating a completely invalid file.
+
+For future improvements, we hope to add the ability to check each branch/field, of both TTrees and its corresponding RNTuple, seeing if both files contain the same data, and the same strucuture. This would allow the user to be more sure that the mapping was a success, with the exception of the columns that contain data not native to RNTuples. 
