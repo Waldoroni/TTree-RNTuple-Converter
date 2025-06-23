@@ -1,4 +1,4 @@
-#[ROOT] TTree-to-RNTuple Converter
+# ROOT TTree-to-RNTuple Converter
 This program is takes in a ROOT data file and converts any TTree found in the file into an RNTuple, using ROOT's RNTuple Importer, currating the TTree to be able to be sent through the RNTuple importer. 
 
 Another program that is included in this repo is a program that checks to see if the two corresponding files are usable for the program, ensuring that the importer has done its job.
