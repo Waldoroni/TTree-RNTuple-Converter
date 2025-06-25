@@ -44,15 +44,12 @@ void treeReading(std::unique_ptr<TFile> & file,const char  treeName[]){
       //We check the type of each branch, and get a pointer referring to its TClass, 
       //If it is not a TClass, it returns a nullptr
 
-
       // To check if the object in question is a TObject, we simply check if the
       //type is not a nullptr, thus allowing us to see if the branch is related to 
       // a TObject. (Since nullptr is read as False)
       if(TClass::GetClass(leaf->GetTypeName())){
         tree->SetBranchStatus(branch->GetName(),0);
-
       };
-
     };
     //A root file is temporarily created to copy the TTree
     TFile * tempfile = new TFile("small.root", "recreate");
@@ -98,25 +95,17 @@ void directoryIterator(std::unique_ptr<TFile> & file,const char dirName[]){
   for (auto key12 : TRangeDynCast<TKey>(dir->GetListOfKeys())) {
     if(TClass::GetClass(key12->GetClassName())->InheritsFrom("TDirectoryFile")){
       //If TDirectory is found, then iterate through its contents, defined in DirectoryIterator
-
       auto destination = std::string(dirName)+"/"+std::string(key12->GetName());
       std::cout<<destination<<std::endl;
       directoryIterator(file,destination.c_str());
-
-      
     }
     else if(TClass::GetClass(key12->GetClassName())->InheritsFrom("TTree")){
       std::cout<<"THIS WORKS";
       //If TTree is found, convert TTree to RNTuple, as described in treeReading
       auto destination = std::string(dirName)+"/"+std::string(key12->GetName());
       treeReading(file,destination.c_str());
-
-
     }
     else {};
-
-
-
   };
 };
 
@@ -139,22 +128,14 @@ void fileIterator(std::unique_ptr<TFile> & file){
     //If TDirectory is found, then iterate through its contents, defined in DirectoryIterator
     if(TClass::GetClass(key1->GetClassName())->InheritsFrom("TDirectoryFile")){
       std::cout<<key1->GetName()<<std::endl;
-      directoryIterator(file,key1->GetName());
-
-      
+      directoryIterator(file,key1->GetName());      
     }
     else if(TClass::GetClass(key1->GetClassName())->InheritsFrom("TTree")){
       //If TTree is found, convert TTree to RNTuple, as described in treeReading
       std::cout<<"THIS WORKS";
       treeReading(file,key1->GetName());
-
-
     }
-
     else {};
-
-
-
   };
 };
 
@@ -165,10 +146,7 @@ void fileIterator(std::unique_ptr<TFile> & file){
 
 
 int main(int argc, char *argv[]) {
-
   std::unique_ptr<TFile> myFile{TFile::Open(argv[1], "UPDATE")};
-
-
   fileIterator(myFile);
   return 0;
 
