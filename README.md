@@ -1,5 +1,5 @@
 # ROOT TTree-to-RNTuple Converter
-This repository is focused on the conversion from ROOT's TTree storage format to its new storage format, RNTuples. It contains a file that is meant to map TTrees to RNtuple, Importer.cpp, then the other file is meant to check the original file and the new file for any errors after importing it. 
+This repository is focused on the conversion from ROOT's TTree storage format to its new storage format, RNTuples. It contains a file that is meant to map TTrees to RNtuple, Importer.cpp, then the other file is meant to check the original file and the new file for any errors after importing it. This was made in ROOT 6.34.04.
 
 ## Importer
 This program takes as an input, a ROOT file containing some amount of TTrees. It will search through the file and its subdirectories for any TTrees in the data. Once it finds a TTree, it will convert the TTree using ROOT's built-in RNTuple Importer, which only include the branches that are natively compatible with RNTuples. This will create a new ROOT file containing the RNTuple.
