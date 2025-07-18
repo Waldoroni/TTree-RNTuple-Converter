@@ -58,6 +58,7 @@ void treeReading(std::unique_ptr<TFile> & file,const char  treeName[]){
     if (!gSystem->AccessPathName(newfileName.c_str())){
         std::unique_ptr<TFile> newfile{TFile::Open(newfileName.c_str(), "UPDATE")};
       if (newfile->FindKey(rntupleName.c_str()) == nullptr){
+        newfile->Close();
         auto importer = ROOT::Experimental::RNTupleImporter::Create(outputtree, newfileName.c_str());
         importer->SetNTupleName(rntupleName.c_str());
         importer->Import();
