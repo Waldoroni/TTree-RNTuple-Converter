@@ -106,7 +106,11 @@ void directoryIterator(std::unique_ptr<TFile> & file,const char dirName[]){
       auto destination = std::string(dirName)+"/"+std::string(key12->GetName());
       treeReading(file,destination.c_str());
     }
-    else {};
+    else {
+      std::unique_ptr<TFile> myFile{TFile::Open(newfileName.c_str(), "UPDATE")};
+      myFile->WriteObject(key1->ReadObj(), key1->GetName());
+      myFile->Close();
+    };
   };
 };
 
@@ -129,14 +133,21 @@ void fileIterator(std::unique_ptr<TFile> & file){
     //If TDirectory is found, then iterate through its contents, defined in DirectoryIterator
     if(TClass::GetClass(key1->GetClassName())->InheritsFrom("TDirectoryFile")){
       std::cout<<key1->GetName()<<std::endl;
-      directoryIterator(file,key1->GetName());      
+      directoryIterator(file,key1->GetName());
+      std::unique_ptr<TFile> myFile{TFile::Open(newfileName.c_str(), "UPDATE")};
+      myFile->WriteObject(key1->ReadObj(), key1->GetName());
+      myFile->Close();
     }
     else if(TClass::GetClass(key1->GetClassName())->InheritsFrom("TTree")){
       //If TTree is found, convert TTree to RNTuple, as described in treeReading
       std::cout<<"THIS WORKS";
       treeReading(file,key1->GetName());
     }
-    else {};
+    else {
+      std::unique_ptr<TFile> myFile{TFile::Open(newfileName.c_str(), "UPDATE")};
+      myFile->WriteObject(key1->ReadObj(), key1->GetName());
+      myFile->Close();
+    };
   };
 };
 
