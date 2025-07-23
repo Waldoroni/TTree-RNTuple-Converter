@@ -108,7 +108,8 @@ void directoryIterator(std::unique_ptr<TFile> & file,const char dirName[]){
     }
     else {
       std::unique_ptr<TFile> myFile{TFile::Open(newfileName.c_str(), "UPDATE")};
-      myFile->WriteObject(key1->ReadObj(), key1->GetName());
+      auto destination = std::string(dirName)+"/"+std::string(key12->GetName());
+      myFile->WriteObject(key1->ReadObj(), destination.c_str());
       myFile->Close();
     };
   };
